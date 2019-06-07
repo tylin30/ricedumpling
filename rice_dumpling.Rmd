@@ -1,0 +1,65 @@
+---
+title: "rice_dumpling"
+author: "tylin"
+date: "6/7/2019"
+output: html_document
+---
+
+```{r include=FALSE}
+# install.packages("plot3D")
+# install.packages("animation")
+library(plot3D)
+library(animation)
+```
+
+
+```{r include=FALSE}
+#ref: https://alstatr.blogspot.com/2014/02/r-fun-with-surf3d-function.html
+saveGIF({
+  par(mai = c(0.1,0.1,0.1,0.1))
+  for(i in 1:100){
+    # X <- seq(0, 2*pi, length.out = 100)
+    # Y <- seq(-15, 6, length.out = 100)
+    X <- seq(0, 2*pi, length.out = 100)
+    Y <- seq(0, 2*pi, length.out = 100)
+    
+    M <- mesh(X, Y)
+    u <- M$x
+    v <- M$y
+    
+    # x, y and z grids
+    x <- cos(u)
+    y <- cos(v)
+    z <- cos(u+v)
+    
+    # full colored image
+    surf3D(x, y, z, colvar = z, 
+           col = ramp.col(col = c("darkgreen", "darkolivegreen3", "darkgreen"), n = 100),
+           colkey = FALSE, shade = 0.5, expand = 1.2, box = FALSE, 
+           phi = 35, theta = i, lighting = FALSE, ltheta = 560,
+           lphi = -i)
+  }
+}, interval = 0.1, ani.width = 550, ani.height = 350)
+```
+
+```{r include=FALSE}
+library(plotly)
+library(ggplot2)
+```
+
+
+
+```{r echo=FALSE}
+p <- plot_ly(x = x, y = y, z = z, colors = c("darkgreen", "darkolivegreen3", "darkgreen")) %>% add_surface() %>% layout(
+    title = "早安我的朋友，端午節佳節愉快",
+    scene = list(
+      xaxis = list(title = "福氣滿滿"),
+      yaxis = list(title = "天天開心"),
+      zaxis = list(title = "平安喜樂")
+    ),
+    showlegend = FALSE)
+
+p
+```
+
+
